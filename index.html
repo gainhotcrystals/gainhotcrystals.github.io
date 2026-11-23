@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vice Hustle — Grand Crime Idle Clicker</title>
+  <meta name="description" content="Rule the neon crime city! Fight street bosses, unlock deadly weapons, conquer districts, and build your criminal empire in Vice Hustle." />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <style>
+    :root {
+      --bg: #080a12;
+      --bg-2: #101426;
+      --card: rgba(19, 24, 43, 0.85);
+      --border: rgba(255, 255, 255, 0.09);
+      --text: #f2f5ff;
+      --muted: #a2acc9;
+      --pink: #ff3e9d;
+      --gold: #ffbe3b;
+      --cyan: #2de2ff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+      background:
+        radial-gradient(900px 500px at 85% -10%, rgba(255, 62, 157, 0.22), transparent 60%),
+        radial-gradient(800px 500px at 10% 10%, rgba(45, 226, 255, 0.16), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+    /* Nav */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(8, 10, 18, 0.78);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: 0.6px;
+    }
+    .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 190, 59, 0.45);
+      box-shadow: 0 4px 16px rgba(255, 62, 157, 0.25);
+    }
+    .brand span {
+      background: linear-gradient(90deg, var(--gold), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .nav-links a:hover { color: #fff; }
+
+    /* Hero */
+    .hero {
+      padding: 56px 0 48px;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(45, 226, 255, 0.1);
+      border: 1px solid rgba(45, 226, 255, 0.32);
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.08;
+      letter-spacing: -0.5px;
+    }
+    .grad {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--pink) 55%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      margin: 0 0 26px;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 520px;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      color: #0b0d17;
+      background: linear-gradient(135deg, var(--gold), #ff8a3d);
+      box-shadow: 0 10px 30px rgba(255, 190, 59, 0.32);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(255, 190, 59, 0.45);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 20px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      transition: border-color 0.18s ease, background 0.18s ease;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(45, 226, 255, 0.45);
+    }
+    .hero-media {
+      position: relative;
+    }
+    .hero-card {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 190, 59, 0.35);
+      box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.65),
+        0 0 40px rgba(255, 62, 157, 0.18);
+      background: var(--bg-2);
+    }
+    .hero-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Sections */
+    section { padding: 48px 0; }
+    .sec-head {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .sec-head h2 {
+      margin: 0 0 8px;
+      font-size: clamp(26px, 3.6vw, 36px);
+    }
+    .sec-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* Features */
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .feat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px 20px;
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+    .feat:hover {
+      transform: translateY(-4px);
+      border-color: rgba(45, 226, 255, 0.4);
+    }
+    .feat-ico {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      background: linear-gradient(135deg, rgba(255, 62, 157, 0.2), rgba(45, 226, 255, 0.18));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 14px;
+    }
+    .feat h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+    .feat p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* Gallery */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+    .shot {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+    }
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .shot-cap {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .shot-cap strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+    .shot-cap span {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 32px;
+      border-top: 1px solid var(--border);
+      background: rgba(8, 10, 18, 0.9);
+      padding: 28px 0 36px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .foot-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .foot-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .foot-links a { color: var(--cyan); }
+    .foot-links a:hover { text-decoration: underline; }
+
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; padding-top: 34px; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .grid-4, .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#">
+        <img src="assets/icon.png" alt="Vice Hustle Icon" />
+        <span>VICE HUSTLE</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#gallery">Showcase</a>
+        <a href="https://gainhotcrystals.github.io/vice-hustle-privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a href="mailto:gainhotcrystals@gmail.com">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <div class="pill">🌴 Miami-Style Grand Crime Idle</div>
+        <h1>Rule the Neon <span class="grad">Crime City</span></h1>
+        <p>
+          Start as a Street Punk and rise to Mythic Don. Tap through intense boss showdowns, unlock heavy weapons, recruit gang allies, and capture city districts that print cash around the clock.
+        </p>
+        <div class="cta-row">
+          <a class="btn-primary" href="#gallery">▶ Coming Soon on Google Play</a>
+          <a class="btn-secondary" href="https://gainhotcrystals.github.io/vice-hustle-privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="hero-card">
+          <img src="assets/banner.jpg" alt="Vice Hustle — Idle Crime Tycoon" />
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="sec-head">
+        <h2>Build Your Underworld Empire</h2>
+        <p>Fast-paced tap combat meets idle district management.</p>
+      </div>
+      <div class="grid-4">
+        <div class="feat">
+          <div class="feat-ico">👊</div>
+          <h3>Tap &amp; Boss Fights</h3>
+          <p>Trigger Overdrive combos, land massive crits, and take down timed street bosses.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-ico">💥</div>
+          <h3>Deadly Arsenal</h3>
+          <p>Upgrade from Brass Knuckles to a 9mm Pistol, Shotgun, Mini-Uzi, Tommy Gun &amp; Minigun.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-ico">🗺️</div>
+          <h3>District Takeover</h3>
+          <p>Capture South Beach, Downtown, Harbor Port &amp; Vine Hills for 24/7 passive heist cash.</p>
+        </div>
+        <div class="feat">
+          <div class="feat-ico">🏆</div>
+          <h3>Syndicate Ranks</h3>
+          <p>Earn Reputation to unlock higher Empire Ranks with permanent power multipliers.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="sec-head">
+        <h2>Inside Vice Hustle</h2>
+        <p>Neon twilight showdowns, luxury loot, and full city control.</p>
+      </div>
+      <div class="grid-2">
+        <div class="shot">
+          <img src="assets/promo1.jpg" alt="Vice Hustle Boss Showdown" />
+          <div class="shot-cap">
+            <strong>High-Stakes Boss Showdowns</strong>
+            <span>Blast through rival kingpins in the harbor and collect cash &amp; crystals.</span>
+          </div>
+        </div>
+        <div class="shot">
+          <img src="assets/promo2.jpg" alt="Vice Hustle Crime Empire" />
+          <div class="shot-cap">
+            <strong>Conquer Every District</strong>
+            <span>Own the neon skyline, fill your vaults, and unlock elite golden weapons.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-row">
+      <div>&copy; 2026 <strong>Vice Hustle</strong>. All rights reserved.</div>
+      <div class="foot-links">
+        <a href="https://gainhotcrystals.github.io/vice-hustle-privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a href="https://gainhotcrystals.github.io/app-ads.txt" target="_blank" rel="noopener noreferrer">app-ads.txt</a>
+        <a href="mailto:gainhotcrystals@gmail.com">gainhotcrystals@gmail.com</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
